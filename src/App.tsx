@@ -1,26 +1,30 @@
-import React from 'react';
-import logo from './logo.svg';
+import { useState, createContext } from 'react';
+import { ThemeProvider } from 'styled-components'
 import './App.css';
+import { GlobalStyle, themes } from './style';
+import { HomePage } from './components/templates';
+
+const ThemeContext = createContext({});
 
 function App() {
+  const themeSelected = localStorage.getItem('theme') || 'dark';
+  const [theme, setTheme] = useState<string>(themeSelected);
+
+  const handleTheme = () => {
+    const newTheme = theme === 'dark' ? 'light' : 'dark'
+    setTheme(newTheme)
+    localStorage.setItem("theme", newTheme);
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ThemeContext.Provider value={{theme, handleTheme}}>
+      {/* @ts-ignore */}
+      <ThemeProvider theme={themes[theme]}>
+        <GlobalStyle/>
+        <HomePage/>
+      </ThemeProvider>
+    </ThemeContext.Provider>
   );
 }
 
-export default App;
+export default App
