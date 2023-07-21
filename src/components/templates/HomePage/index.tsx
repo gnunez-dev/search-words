@@ -1,5 +1,5 @@
 import { createContext, useEffect, useState } from 'react';
-import { Footer, Header } from '../../organisms'
+import { Header } from '../../organisms'
 import * as style from './style'
 import { searchContextType } from '../../../types';
 import { getWordsAndDocuments } from '../../../lib';
@@ -46,7 +46,6 @@ const HomePage = () => {
         <Header/>
         { dataSearch &&
           <Result {...dataSearch} /> }
-        <Footer/>
       </style.Main>
     </SearchContext.Provider>
   )
