@@ -6,8 +6,8 @@ export const Content = styled.header`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 50px 20px;
-  min-height: 320px;
+  padding: 50px 20px 65px;
+  min-height: 250px;
   margin-inline: auto 0;
   border-radius: 0 0 0 120px;
   background-color: ${p => p.theme.secondary};
