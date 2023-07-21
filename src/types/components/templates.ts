@@ -1,0 +1,2 @@
+export type dataSearchType = {label: string, value: string}
+export type searchContextType = {input: string, dataSearch: dataSearchType[], handleChange: (value: string) => void, handleSearch: () => void}

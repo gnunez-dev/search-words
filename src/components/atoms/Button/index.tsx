@@ -1,6 +1,16 @@
-const Button = () => {
+import { ButtonProps } from "../../../types"
+import * as style from './style'
+
+const Button = ({
+  label,
+  onClick,
+  $borderRadius
+}: ButtonProps) => {
   return (
-    <button></button>
+    <style.ButtonContent
+      onClick={onClick}
+      $borderRadius={$borderRadius}
+    >{label}</style.ButtonContent>
   )
 }
 export default Button

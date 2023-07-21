@@ -1,6 +1,21 @@
-const Input = () => {
+import { InputProps } from "../../../types"
+import * as style from './style'
+
+const Input = ({
+  type,
+  name,
+  value,
+  onChange,
+  $borderRadius
+}: InputProps) => {
   return (
-    <input/>
+    <style.InputContent
+      type={type}
+      name={name}
+      value={value}
+      onChange={(e) => onChange(e.target.value)}
+      $borderRadius={$borderRadius}
+    />
   )
 }
 export default Input

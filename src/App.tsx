@@ -4,7 +4,7 @@ import './App.css';
 import { GlobalStyle, themes } from './style';
 import { HomePage } from './components/templates';
 
-const ThemeContext = createContext({});
+export const ThemeContext = createContext({});
 
 function App() {
   const themeSelected = localStorage.getItem('theme') || 'dark';
