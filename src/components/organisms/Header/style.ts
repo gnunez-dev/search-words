@@ -4,14 +4,19 @@ export const Content = styled.header`
   width: calc(100% - 40px);
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
-  padding: 50px 20px 65px;
-  min-height: 250px;
+  padding: 20px 20px 65px;
+  min-height: 280px;
   margin-inline: auto 0;
   border-radius: 0 0 0 120px;
   background-color: ${p => p.theme.secondary};
   gap: 20px;
+`
+export const ContentBtnMode = styled.nav`
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
 `
 export const Title = styled.h1`
   width: 100%;

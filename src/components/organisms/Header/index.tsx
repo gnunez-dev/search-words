@@ -5,7 +5,9 @@ import * as style from './style'
 const Header = () => {
   return (
     <style.Content>
-      <BtnMode/>
+      <style.ContentBtnMode>
+        <BtnMode/>
+      </style.ContentBtnMode>
       <style.Title>Search Words</style.Title>
       <SearchBar/>
     </style.Content>
