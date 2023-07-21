@@ -44,8 +44,15 @@ const HomePage = () => {
     <SearchContext.Provider value={contextValue}>
       <style.Main>
         <Header/>
-        { dataSearch &&
-          <Result {...dataSearch} /> }
+        { (input && dataSearch) ?
+          <Result {...dataSearch} />
+          :
+          <style.NoFound>
+            {`We couldn't find results for:`}
+            <br/>
+            <strong>{input}</strong>
+          </style.NoFound>
+        }
       </style.Main>
     </SearchContext.Provider>
   )
