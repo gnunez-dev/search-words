@@ -22,12 +22,12 @@ const HomePage = () => {
   
   const handleChange = (value: string) => setInput(value)
   const handleSearch = async () => {
-    const url = `https://${process.env.REACT_APP_API_HOST}/words/${input}/`
+    const url = `https://${process.env.REACT_APP_VERCEL_API_HOST}/words/${input}/`
     const optionsApi = {
       method: 'GET',
       headers: {
-        'X-RapidAPI-Key': `${process.env.REACT_APP_API_KEY}`,
-        'X-RapidAPI-Host': `${process.env.REACT_APP_API_HOST}`
+        'X-RapidAPI-Key': `${process.env.REACT_APP_VERCEL_API_KEY}`,
+        'X-RapidAPI-Host': `${process.env.REACT_APP_VERCEL_API_HOST}`
       }
     };
     try {
