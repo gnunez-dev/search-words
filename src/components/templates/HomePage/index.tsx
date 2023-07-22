@@ -30,6 +30,7 @@ const HomePage = () => {
         'X-RapidAPI-Host': `${process.env.REACT_APP_VERCEL_API_HOST}`
       }
     };
+    console.log({optionsApi})
     try {
       const response = await fetch(url, optionsApi);
       const result = await response.json();
