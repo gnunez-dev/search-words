@@ -46,7 +46,7 @@ const HomePage = () => {
         { (input && dataSearch) ?
             <Result {...dataSearch} />
           :
-            ( input !== '' && 
+            ( (input !== '' && dataSearch) &&
               <style.NoFound>
                 {`We couldn't find results for:`}
                 <br/>
