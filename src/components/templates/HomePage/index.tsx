@@ -2,9 +2,8 @@ import { createContext, useEffect, useState } from 'react';
 import { Header } from '../../organisms'
 import * as style from './style'
 import { searchContextType } from '../../../types';
-import { getWordsAndDocuments } from '../../../lib';
+import { getOrSaveWord } from '../../../lib';
 import { Result } from '../../atoms';
-//import { addCollectionAndDocuments } from '../../../lib';
 //import WORDS_DATA from '../../../lib/data';
 
 const defaultValueContext:searchContextType = {input:'', dataSearch: [{label:'', value:''}], handleChange: (value:string)=>{console.log(value)}, handleSearch: () =>{}}
@@ -12,32 +11,31 @@ export const SearchContext = createContext<searchContextType>(defaultValueContex
 
 const HomePage = () => {
 
-  const [input, setInput] = useState('hatchback')
+  const [input, setInput] = useState('')
   const [dataSearch, setDataSearch] = useState<any>()
-
-  useEffect(() => {
-    getWordsAndDocuments()
-      .then( response => console.log({response}))
-  }, [])
   
   const handleChange = (value: string) => setInput(value)
-  const handleSearch = async () => {
-    const url = `https://${process.env.REACT_APP_VERCEL_API_HOST}/words/${input}/`
+
+  const getData = async () => {
+    const url = `https://${process.env.REACT_APP_API_HOST}/words/${input}/`
     const optionsApi = {
       method: 'GET',
       headers: {
-        'X-RapidAPI-Key': `${process.env.REACT_APP_VERCEL_API_KEY}`,
-        'X-RapidAPI-Host': `${process.env.REACT_APP_VERCEL_API_HOST}`
+        'X-RapidAPI-Key': `${process.env.REACT_APP_API_KEY}`,
+        'X-RapidAPI-Host': `${process.env.REACT_APP_API_HOST}`
       }
     };
-    console.log({optionsApi})
     try {
       const response = await fetch(url, optionsApi);
       const result = await response.json();
-      setDataSearch(result)
+      return result
     } catch (error) {
       console.error(error);
     }
+  }
+
+  const handleSearch = async () => {
+    getOrSaveWord(input, setDataSearch, getData)
   }
   const contextValue: searchContextType = {input, dataSearch, handleChange, handleSearch}
 
@@ -46,13 +44,15 @@ const HomePage = () => {
       <style.Main>
         <Header/>
         { (input && dataSearch) ?
-          <Result {...dataSearch} />
+            <Result {...dataSearch} />
           :
-          <style.NoFound>
-            {`We couldn't find results for:`}
-            <br/>
-            <strong>{input}</strong>
-          </style.NoFound>
+            ( input !== '' && 
+              <style.NoFound>
+                {`We couldn't find results for:`}
+                <br/>
+                <strong>{input}</strong>
+              </style.NoFound>
+            )
         }
       </style.Main>
     </SearchContext.Provider>

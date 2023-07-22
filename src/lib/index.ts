@@ -1,4 +1,4 @@
-import { doc, getDocs, collection, writeBatch, query } from 'firebase/firestore'
+import { doc, getDoc, getDocs, collection, writeBatch, query, updateDoc } from 'firebase/firestore'
 import { db } from './firebase'
 
 export const addCollectionAndDocuments = async (collectionKey: string, objToAdd: any) => {
@@ -26,4 +26,43 @@ export const getWordsAndDocuments = async () => {
     return acc;
   }, {})
   return wordMap;
+}
+//@ts-ignore
+export const getOrSaveWord = async (word, setData, getData) => {
+
+  const wordRef = doc(db, "words", word);
+  const wordSnap = await getDoc(wordRef);
+
+  if (wordSnap.exists()) {
+    setData(wordSnap.data())
+
+  } else {
+    
+    const apiCallRef = doc(db, "api_call", "words");
+    const apiCallSnap = await getDoc(apiCallRef);
+
+    const dataApiCall = apiCallSnap.data()
+    const countApiCall = dataApiCall?.count
+    //console.log({countApiCall})
+
+    if (countApiCall < 1800) {
+      const data = await getData()
+      const newCount = countApiCall + 1;
+
+      await updateDoc(apiCallRef, {
+        count: newCount
+      });
+
+      const collectionRef = collection(db, 'words');
+      const batch = writeBatch(db);
+      const docRef = doc(collectionRef, data.word.toLowerCase());
+      batch.set(docRef, data);
+      await batch.commit();
+      
+      setData(data)
+    } else {
+      console.log('No - Api call')
+    }
+    //console.log("No such document!", data);
+  }
 }
