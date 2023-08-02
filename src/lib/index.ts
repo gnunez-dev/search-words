@@ -29,15 +29,18 @@ export const getWordsAndDocuments = async () => {
 }
 //@ts-ignore
 export const getOrSaveWord = async (word, setData, getData) => {
+  const wordLowerCase = word.toLowerCase()
 
-  const wordRef = doc(db, "words", word);
+  const wordRef = doc(db, "words", wordLowerCase);
   const wordSnap = await getDoc(wordRef);
+
+  
 
   if (wordSnap.exists()) {
     setData(wordSnap.data())
 
   } else {
-    
+
     const apiCallRef = doc(db, "api_call", "words");
     const apiCallSnap = await getDoc(apiCallRef);
 
@@ -47,19 +50,24 @@ export const getOrSaveWord = async (word, setData, getData) => {
 
     if (countApiCall < 1800) {
       const data = await getData()
-      const newCount = countApiCall + 1;
-
-      await updateDoc(apiCallRef, {
-        count: newCount
-      });
-
-      const collectionRef = collection(db, 'words');
-      const batch = writeBatch(db);
-      const docRef = doc(collectionRef, data.word.toLowerCase());
-      batch.set(docRef, data);
-      await batch.commit();
       
-      setData(data)
+      if(!data?.success){
+        setData('')
+        
+      } else {
+        const newCount = countApiCall + 1;
+        await updateDoc(apiCallRef, { count: newCount });
+
+        const collectionRef = collection(db, 'words');
+        const batch = writeBatch(db);
+        
+        const docRef = doc(collectionRef, wordLowerCase);
+        batch.set(docRef, data);
+        await batch.commit();
+
+        setData(data)
+      }
+      
     } else {
       console.log('No - Api call')
     }

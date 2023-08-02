@@ -4,6 +4,7 @@ import * as style from './style'
 import { searchContextType } from '../../../types';
 import { getOrSaveWord } from '../../../lib';
 import { Result } from '../../atoms';
+import DragDropFile from '../../atoms/DragDropFile';
 //import WORDS_DATA from '../../../lib/data';
 
 const defaultValueContext:searchContextType = {input:'', dataSearch: [{label:'', value:''}], handleChange: (value:string)=>{console.log(value)}, handleSearch: () =>{}}
@@ -34,9 +35,7 @@ const HomePage = () => {
     }
   }
 
-  const handleSearch = async () => {
-    getOrSaveWord(input, setDataSearch, getData)
-  }
+  const handleSearch = async () => { getOrSaveWord(input, setDataSearch, getData) }
   const contextValue: searchContextType = {input, dataSearch, handleChange, handleSearch}
 
   return (

@@ -1,3 +1,4 @@
+import { useRef } from "react"
 import { InputProps } from "../../../types"
 import * as style from './style'
 
